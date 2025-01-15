@@ -1,9 +1,10 @@
-Name: YOUR NAME HERE
+Name: Stevie K. Halprin
 
-| Date    |  Time  |                                     Update |
-|:--------|:------:|-------------------------------------------:|
-| April 5 | 9-10pm | I tried to write abstract, efficient code. |
-|         |        |                                            |
+| Date   |     Time      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Update |
+|:-------|:-------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Jan 13 | 6:35pm-7:20pm |                                                         I took some time to reread through the problem set and figure out how I wanted to approach it. I soon realized that I would likely have to keep track of multiple runs while looking at any given point in the array of temperatures. After some thought, I ended up settling on using a HashMap to keep track of these runs, with the latest temperature being the key and the run length being the value. I then took some time to begin my first draft of this approach. |
+| Jan 14 |  8pm-8:30pm   | I continued to work on my first draft using a HashMap of the problem set. Eventually after making a few revisions I ran my code, however I now get a ConcurrentModificationException, and while I know the section of my code that causes that I'm not entirely sure how to go about fixing it. My code actually passes testEdgeCase and testTricky, however those only have a max run length of 1 so maybe that's why? Actually yeah because the problematic section of code that alters the run entries in the HashMap isn't run. |
+|        |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
 
 To add a new row to the table, click into a cell and then hit shift-enter.
