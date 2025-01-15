@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public class WeatherPatterns {
 
-
     /**
      * Longest Warming Trend
      * @param temperatures
@@ -29,29 +28,23 @@ public class WeatherPatterns {
             // Make a copy of runs to store the changes made during this check through with the current temperature
             HashMap<Integer, Integer> holder = new HashMap<>(runs);
 
-            // Add the current temperature as the start of its own run
-            holder.put(temp, 1);
+            // Add the current temperature to the holder HashMap as the start of its own run if it isn't already a key
+            if (!holder.containsKey(temp)) {
+                holder.put(temp, 1);
+            }
 
             // Alter every run in the HashMap of runs accordingly
             for (int run : runs.keySet()) {
                 // Make sure the new temperature is greater than the last entered run in the HashMap
                 // If not, don't change the given run entry
                 if (temp > run) {
-                    // If no entries have the current temperature as the latest entry...
-                    if (!holder.containsKey(temp)) {
+                    // If the current run would be longer than the other run with the current temp as the latest entry
+                    // replace the other run with the current run
+                    if (holder.get(run) >= holder.get(temp)) {
                         // Set the newest temperature added to the run to the current temperature
                         // Increment the length of the run by 1
                         holder.put(temp, holder.get(run) + 1);
                     }
-                    // Otherwise, keep the longer run
-                    else {
-                        if (holder.get(run) >= holder.get(temp)) {
-                            // Set the newest temperature added to the run to the current temperature
-                            // Increment the length of the run by 1
-                            holder.put(temp, holder.get(run) + 1);
-                        }
-                    }
-
                 }
             }
             // Add the changes made to the holder HashMap back into the original HashMap of runs
