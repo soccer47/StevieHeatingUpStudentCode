@@ -26,28 +26,36 @@ public class WeatherPatterns {
 
         // Iterate through every temperature in the inputted array
         for (int temp : temperatures) {
+            // Make a copy of runs to store the changes made during this check through with the current temperature
+            HashMap<Integer, Integer> holder = new HashMap<>(runs);
+
+            // Add the current temperature as the start of its own run
+            holder.put(temp, 1);
+
             // Alter every run in the HashMap of runs accordingly
             for (int run : runs.keySet()) {
                 // Make sure the new temperature is greater than the last entered run in the HashMap
-                // If not, don't change the run entry
+                // If not, don't change the given run entry
                 if (temp > run) {
-                    // If no entries have the current temperature as the latest entry, continue
-                    if (!runs.containsKey(temp)) {
+                    // If no entries have the current temperature as the latest entry...
+                    if (!holder.containsKey(temp)) {
                         // Set the newest temperature added to the run to the current temperature
                         // Increment the length of the run by 1
-                        runs.put(temp, runs.get(run) + 1);
+                        holder.put(temp, holder.get(run) + 1);
                     }
                     // Otherwise, keep the longer run
                     else {
-                        if (runs.get(run) > runs.get(temp)) {
+                        if (holder.get(run) >= holder.get(temp)) {
                             // Set the newest temperature added to the run to the current temperature
                             // Increment the length of the run by 1
-                            runs.put(temp, runs.get(run) + 1);
+                            holder.put(temp, holder.get(run) + 1);
                         }
                     }
 
                 }
             }
+            // Add the changes made to the holder HashMap back into the original HashMap of runs
+            runs = holder;
         }
 
         // Integer representing longest (already ended) run so far
