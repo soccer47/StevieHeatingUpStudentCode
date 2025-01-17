@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,51 +16,51 @@ public class WeatherPatterns {
      * @param temperatures
      * @return the longest run of days with increasing temperatures
      */
+
+    // Adjacency matrix representing edges of graph at edges[from][to]
+    static ArrayList<Integer>[] edges;
+
     public static int longestWarmingTrend(int[] temperatures) {
 
-        // Hashmap representing all runs currently happening (key = last added temperature, value = run length)
-        HashMap<Integer, Integer> runs = new HashMap<>();
+        // Initialize the adjacency matrix (the array of edges)
+        edges = new ArrayList[temperatures.length];
 
-        // Add the first temperature as the first run (of length 1) to runs
-        runs.put(temperatures[0], 1);
-
-        // Iterate through every temperature in the inputted array
-        for (int temp : temperatures) {
-            // Make a copy of runs to store the changes made during this check through with the current temperature
-            HashMap<Integer, Integer> holder = new HashMap<>(runs);
-
-            // Add the current temperature to the holder HashMap as the start of its own run if it isn't already a key
-            if (!holder.containsKey(temp)) {
-                holder.put(temp, 1);
-            }
-
-            // Alter every run in the HashMap of runs accordingly
-            for (int run : runs.keySet()) {
-                // Make sure the new temperature is greater than the last entered run in the HashMap
-                // If not, don't change the given run entry
-                if (temp > run) {
-                    // If the current run would be longer than the other run with the current temp as the latest entry
-                    // replace the other run with the current run
-                    if (holder.get(run) >= holder.get(temp)) {
-                        // Set the newest temperature added to the run to the current temperature
-                        // Increment the length of the run by 1
-                        holder.put(temp, holder.get(run) + 1);
-                    }
+        // Iterate through the temperatures array to fill the edges array
+        for (int i = 0; i < temperatures.length; i++) {
+            // Iterate through every temperature that has been passed already
+            for (int j = 0; j < i; j++) {
+                // Add the current temperature as an edge if the prior temperature is lower than the current temp
+                if (temperatures[j] < temperatures[i]) {
+                    edges[j].add(i);
                 }
             }
-            // Add the changes made to the holder HashMap back into the original HashMap of runs
-            runs = holder;
         }
 
-        // Integer representing longest (already ended) run so far
+        // Initialize the Integer to hold the longest recorded run to 0
         int longestRun = 0;
-        // Get the longest run from the HashMap
-        for (int runLength : runs.values()) {
-            if (runLength > longestRun) {
-                longestRun = runLength;
+        // Integer to hold the length of the longest run ending at the current vertex
+        int currentRun;
+
+        for (int i = 0; i < edges.length; i++) {
+            currentRun = longestPathTo(i);
+            // If the current vertex ends a longer run than the longest previously recorded run, update longestRun
+            if (currentRun > longestRun) {
+                longestRun = currentRun;
             }
         }
+
         // Return the longest run
         return longestRun;
+    }
+
+    // Method to return the longest path ending at a given vertex
+    public static int longestPathTo(int vertex) {
+        // Initialize the length of the path to 0
+        int len = 0;
+        // Recursively call longestPathTo on each of the vertices that leads to this vertex
+        for (int nextNode : edges[vertex]) {
+            len = (len, longestPathTo(nextNode));
+        }
+        return len + 1;
     }
 }
